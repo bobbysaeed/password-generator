@@ -28,3 +28,7 @@ class RandomPasswordGenerator(PasswordGenerator):
         self.symbols = string.punctuation
         self.digits = string.digits
         self.chars = string.ascii_letters
+
+    def generate(self):
+        collection_of_parameters = self.digits + self.chars + self.symbols
+        return ''.join(random.choice(collection_of_parameters) for _ in range(self.length))
