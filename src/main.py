@@ -20,3 +20,11 @@ class PinCodeGenerator(PasswordGenerator):
         Generate a numeric pin code.
         """
         return ''.join(random.choice(string.digits) for _ in range(self.length))
+
+
+class RandomPasswordGenerator(PasswordGenerator):
+    def __init__(self, symbols, digits, chars, length: int = 10):
+        self.length = length
+        self.symbols = string.punctuation
+        self.digits = string.digits
+        self.chars = string.ascii_letters
