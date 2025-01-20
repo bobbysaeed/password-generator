@@ -1,6 +1,10 @@
 import random
 import string
 from abc import ABC, abstractmethod
+from typing import List, Optional
+
+import nltk
+
 
 class PasswordGenerator(ABC):
     @abstractmethod
@@ -32,3 +36,23 @@ class RandomPasswordGenerator(PasswordGenerator):
     def generate(self):
         collection_of_parameters = self.digits + self.chars + self.symbols
         return ''.join(random.choice(collection_of_parameters) for _ in range(self.length))
+
+
+class MemorablePasswordGenerator(PasswordGenerator):
+    """
+    Class to generate a memorable password.
+    """
+    def __init__(
+        self,
+        no_of_words: int = 5,
+        separator: str = "-",
+        capitalization: bool = False,
+        vocabulary: Optional[List[str]] = None
+    ):
+        if vocabulary is None:
+            vocabulary = nltk.corpus.words.words()  # edit this to any vocabulary list you want
+
+        self.no_of_words: int = no_of_words
+        self.separator: str = separator
+        self.capitalization: bool = capitalization
+        self.vocabulary: List[str] = vocabulary
