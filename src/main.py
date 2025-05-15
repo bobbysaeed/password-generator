@@ -5,6 +5,8 @@ from typing import List, Optional
 
 import nltk
 
+nltk.download('words')
+
 
 class PasswordGenerator(ABC):
     @abstractmethod
@@ -50,9 +52,16 @@ class MemorablePasswordGenerator(PasswordGenerator):
         vocabulary: Optional[List[str]] = None
     ):
         if vocabulary is None:
-            vocabulary = nltk.corpus.words.words()  # edit this to any vocabulary list you want
+            vocabulary = nltk.corpus.words.words()
 
         self.no_of_words: int = no_of_words
         self.separator: str = separator
         self.capitalization: bool = capitalization
         self.vocabulary: List[str] = vocabulary
+
+    def generate(self):
+        """Generate a password using the specified vocabulary and separator."""
+        selected_words = random.sample(self.vocabulary, self.no_of_words)
+        if self.capitalization:
+            selected_words = [word.capitalize() for word in selected_words]
+        return self.separator.join(selected_words)
