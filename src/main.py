@@ -9,8 +9,14 @@ nltk.download('words')
 
 
 class PasswordGenerator(ABC):
+    """
+    Base class for generating passwords.
+    """
     @abstractmethod
     def generate(self):
+        """
+        Subclasses must override this method to generate password.
+        """
         pass
 
 
@@ -29,6 +35,9 @@ class PinCodeGenerator(PasswordGenerator):
 
 
 class RandomPasswordGenerator(PasswordGenerator):
+    """
+    Class to generate a random password.
+    """
     def __init__(self, symbols, digits, chars, length: int = 10):
         self.length = length
         self.symbols = string.punctuation
@@ -36,6 +45,9 @@ class RandomPasswordGenerator(PasswordGenerator):
         self.chars = string.ascii_letters
 
     def generate(self):
+        """
+        Generate a password from specified characters.
+        """
         collection_of_parameters = self.digits + self.chars + self.symbols
         return ''.join(random.choice(collection_of_parameters) for _ in range(self.length))
 
@@ -60,7 +72,9 @@ class MemorablePasswordGenerator(PasswordGenerator):
         self.vocabulary: List[str] = vocabulary
 
     def generate(self):
-        """Generate a password using the specified vocabulary and separator."""
+        """
+        Generate a password using the specified vocabulary and separator.
+        """
         selected_words = random.sample(self.vocabulary, self.no_of_words)
         if self.capitalization:
             selected_words = [word.capitalize() for word in selected_words]
