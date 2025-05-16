@@ -81,6 +81,13 @@ class MemorablePasswordGenerator(PasswordGenerator):
         return self.separator.join(selected_words)
 
 
+def test_pincode_generator():
+    pin_gen = PinCodeGenerator(length=4)
+    pin = pin_gen.generate()
+    print(pin)
+    assert len(pin) == 4
+    assert all(char in string.digits for char in pin)
+
 def test_random_password_generator():
     random_gen = RandomPasswordGenerator(length=10, include_numbers=True, include_symbols=True)
     password = random_gen.generate()
@@ -100,3 +107,16 @@ def test_memorable_password_generator():
     print(password)
     assert len(password.split('-')) == 4
     assert all(word[0].isupper() for word in password.split('-'))
+
+
+def main():
+    print("Testing RandomPasswordGenerator:")
+    test_random_password_generator()
+    print("Testing MemorablePasswordGenerator:")
+    test_memorable_password_generator()
+    print("Testing PinCodeGenerator:")
+    test_pincode_generator()
+
+
+if __name__ == "__main__":
+    main()
