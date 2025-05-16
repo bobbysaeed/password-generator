@@ -88,3 +88,15 @@ def test_random_password_generator():
     assert len(password) == 10
     assert any(char in string.ascii_uppercase for char in password)
     assert any(char in string.digits for char in password)
+
+def test_memorable_password_generator():
+    memorable_gen = MemorablePasswordGenerator(
+        no_of_words=4,
+        separator="-",
+        capitalization=True,
+        vocabulary=nltk.corpus.words.words(),
+    )
+    password = memorable_gen.generate()
+    print(password)
+    assert len(password.split('-')) == 4
+    assert all(word[0].isupper() for word in password.split('-'))
