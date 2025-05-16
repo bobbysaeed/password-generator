@@ -38,19 +38,19 @@ class RandomPasswordGenerator(PasswordGenerator):
     """
     Class to generate a random password.
     """
-    def __init__(self, symbols, digits, chars, length: int = 10):
+    def __init__(self, length: int = 8, include_numbers: bool = False, include_symbols: bool = False):
         self.length = length
-        self.symbols = string.punctuation
-        self.digits = string.digits
-        self.chars = string.ascii_letters
+        self.characters: str = string.ascii_letters
+        if include_numbers:
+            self.characters += string.digits
+        if include_symbols:
+            self.characters += string.punctuation
 
-    def generate(self):
+    def generate(self) -> str:
         """
         Generate a password from specified characters.
         """
-        collection_of_parameters = self.digits + self.chars + self.symbols
-        return ''.join(random.choice(collection_of_parameters) for _ in range(self.length))
-
+        return ''.join(random.choice(self.characters) for _ in range(self.length))
 
 class MemorablePasswordGenerator(PasswordGenerator):
     """
@@ -79,3 +79,12 @@ class MemorablePasswordGenerator(PasswordGenerator):
         if self.capitalization:
             selected_words = [word.capitalize() for word in selected_words]
         return self.separator.join(selected_words)
+
+
+def test_random_password_generator():
+    random_gen = RandomPasswordGenerator(length=10, include_numbers=True, include_symbols=True)
+    password = random_gen.generate()
+    print(password)
+    assert len(password) == 10
+    assert any(char in string.ascii_uppercase for char in password)
+    assert any(char in string.digits for char in password)
